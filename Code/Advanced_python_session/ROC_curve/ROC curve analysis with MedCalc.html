@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://www.medcalc.org/manual/roc-curves.php -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!--<base target="_top">--><base href="." target="_top">
+<title>ROC curve analysis with MedCalc</title>
+<meta name="keywords" content="ROC, ROC curve analysis, ROCC, receiver operating characteristic, curves, sensitivity, specificity, ROC curves, ROC graph, predictive value, likelihood ratio, area under curve, AUC, cutoff, interpreting, diagnostic test evaluation">
+<meta name="description" content="ROC curve analysis in MedCalc includes calculation of area under the curve (AUC), Youden index, optimal criterion and predictive values. The program generates a full listing of criterion values and coordinates of the ROC curve.">
+<meta name="viewport" content="width=device-width">
+<meta name="google-site-verification" content="qO6peqBRQsKbR4X-72NVLXdkUYeTSYYmfahV_pQyrIU">
+<meta name="yandex-verification" content="c45f36d3c5197087">
+<meta name="theme-color" content="#394E66">
+
+
+	<link rel="canonical" href="https://www.medcalc.org/manual/roc-curves.php">
+		<link rel="home" title="Home" class="externallink" href="https://www.medcalc.org/">
+	<link rel="shortcut icon" class="externallink" href="https://www.medcalc.org/favicon.ico">
+	<link rel="apple-touch-icon" class="externallink" href="https://www.medcalc.org/apple-touch-icon-precomposed.png">
+
+	<meta property="author" name="author" content="Frank Schoonjans">
+	<meta property="copyright" name="copyright" content="MedCalc Software Ltd">
+	
+	<meta property="fb:admins" content="100009140865997">
+	<meta property="fb:app_id" content="246862673324764">
+	<meta property="og:site_name" content="MedCalc">
+	<meta property="og:title" content="ROC curve analysis with MedCalc">
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://www.medcalc.org/manual/roc-curves.php">
+	<meta property="og:description" content="ROC curve analysis in MedCalc includes calculation of area under the curve (AUC), Youden index, optimal criterion and predictive values. The program generates a full listing of criterion values and coordinates of the ROC curve.">
+	<meta property="og:image" content="https://www.medcalc.org/manual/_help/images/roc_intro3.png">
+<meta property="og:image:alt" content="MedCalc statistical software for biomedical research.">
+	
+	<script type="application/ld+json">
+	{
+	  "@context": "http://schema.org",
+	  "@type": "Article",
+	  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://www.medcalc.org/manual/roc-curves.php" },
+	  "headline": "ROC curve analysis with MedCalc",
+	  "image": { "@type": "ImageObject", "url": "https://www.medcalc.org/manual/_help/images/roc_intro3.png", "height": "279", "width": "289" },
+	  "publisher": { "@type": "Organization", "name": "MedCalc Software", "url": "https://www.medcalc.org/", "logo": { "@type": "ImageObject", "url": "https://www.medcalc.org/gif/medcalc.png", "height": "57", "width": "200" }  },
+	  "datePublished": "2020-05-24T15:01:55+0200",
+	  "dateModified": "2020-05-24T15:01:55+0200",
+	  "author": { "@type": "Person", "name": "Frank Schoonjans" },  
+	  "description": "ROC curve analysis in MedCalc includes calculation of area under the curve (AUC), Youden index, optimal criterion and predictive values. The program generates a full listing of criterion values and coordinates of the ROC curve."
+	}
+	</script>
+	
+	
+	
+
+<!--
+<link rel="stylesheet" type='text/css' href='/inc/styles.css'>
+-->
+<style>
+body,html{}body{width:100%;margin:0px;padding:0px;background-color:#fcfcfc;line-height:135%}body, input, textarea{font-family:Arial, Helvetica, sans-serif;font-size:14px}sub, sup{font-size:0.7em;line-height:0}.leftpanel{float:left;padding-right:24px;padding-bottom:12px}.rightpanel{display:inline-block}.small{font-size:12px}.left{text-align:Left}.right{text-align:Right}.center{text-align:Center}.middle{vertical-align:middle}.nobr{white-space:nowrap}.bold{font-weight:bold}.indent0{margin-left:24px}.indent{margin-left:50px}.white{color:#FFFFFF}.warning{color:#CC0000}.arg{color:#008000;font-weight:bold}.urlcheck{display:none}.dlg{color:#224422;font-weight:bold}.helpview{display:none}.helphide{display:inline-block}div{text-align:Left}p{text-align:Justify;margin-top:0px;margin-bottom:6px}.image{margin-left:24px;margin-top:18px;margin-bottom:12px}img{max-width:100%}.imgfloatright{float:right;margin-left:20px;margin-bottom:20px}table{border-collapse:collapse;border-spacing:0;border:0}td{text-align:Left;padding:0;vertical-align:top}td.shaded{background-color:#EEEEEE}td.content{padding-top:10px}.padded{padding:6px}#dialogtable{background-color:#EEEEEE;margin-top:24px;padding:0px 16px 8px 16px;max-width:420px}#dialogtable p{padding-top:16px}#dialogtable input{width:100%;max-width:260px;margin-top:4px}#dialogtable input[type=hidden]{margin-top:0px}#dialogtable textarea{width:100%;max-width:400px;margin-top:4px}#dialogtable input[type=submit]{width:100px;margin-top:4px}.formula{padding:10px 0px 12px 72px}#content ul, ol{text-align:Justify;padding-left:24px;margin-top:6px;margin-bottom:6px}#content ul{list-style-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAAjklEQVR4AWMYpIC7u5uNIaFbAoTBbHzge2gpB0N8Xx5DfP8XEAax/0S0c+PWkdibzhDY+Z8hrAuMweyEvnzcGuJ6/zP4t/1nCGgHYQg7svs/bg1RQFPdG/8zeDaDMIQd1olHQ1x3DoNNzX8Gh7r/DI5ADGQzxneX4PU0UFMRg0/TfwZvIAaymTObuHCpBwANMkFTW57o3gAAAABJRU5ErkJggg==")}#content ol.num{list-style-type:decimal}#content li{text-align:Justify;margin-top:6px;padding-left:0px;margin-left:0px}#content li.num{list-style-type:decimal;list-style-image:none}#content li.none{text-align:Justify;list-style-type:none;margin-top:6px}ul ul li{list-style-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAJAQMAAADAY3TdAAAABlBMVEX///9wkr5unc09AAAAGElEQVR4Xi3BAQkAAADCMPunfQSFu0X8FB4SA8F51jx+AAAAAElFTkSuQmCC");padding-left:0px;margin-left:0px}ul.checked li{list-style-image:url("data:image/gif;base64,R0lGODlhDAAMAPQRAABVAACAAACAMwCqADOAADOAMzOqADOqM2aAZmaqM2aqZmbVM5mqmcyqmczVzMz/zP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAUAABEALAAAAAAMAAwAAAU7ICSOIxIwZAoESjoWQ+C4EEOcNFQYwuwygQNipECgIAEDYPRYGQpQw3DkMCUMh94vsDC0aDZBI1crpEIAOw==")}ul.dashed li{list-style-image:url("data:image/gif;base64,R0lGODlhDAAMAPD/AP///wAAACH5BAUAAAIALAAAAAAMAAwAAAIMhI+py+0PWZg02usKADs=")}hr{border:0;color:#9E9E9E;background-color:#9E9E9E;height:1px;width:100%;text-align:left}h1, h2, h3, h4{text-align:Left}h1, .h1{font-size:120%;color:#111111;margin-top:0px;margin-bottom:18px}h2{font-size:100%;color:#000000;font-weight:bold}h3{font-size:100%;color:#000000;font-weight:bold;margin-left:25px}h4{font-size:100%;color:#000000;font-weight:bold;margin-left:25px}h2.shaded{background-color:#DED9E1;width:100%;padding:3px 6px 3px 6px}.dotf{border-top:1px dotted #AAAAAA;vertical-align:top}.dotl{border-top:1px dotted #AAAAAA;border-bottom:1px dotted #AAAAAA;vertical-align:top}.frame{border-collapse:collapse;margin-top:3px}.framehead{color:#000000;border-style:outset;border-width:1px;border-color:#CCCC99;background-color:#DED9E1;padding:2px 4px 2px 8px}.framebody{border-style:outset;border-width:1px;border-color:#CCCC99;background-color:#FEFEFF;padding:8px}a{text-decoration:none;color:#1A1BDE}#headercontainer{}#topmenucontainer{background-color:#232F3E}#contentcontainer{background-color:white;width:100%;display:inline-block;float:left}.innercontainer{max-width:1200px}#rightsideblock{display:inline-block;padding-left:24px;margin-top:36px;margin-bottom:24px;text-align:center}#bottommenucontainer{clear:both;background-color:#232F3E}#footercontainer{background-color:#f2f2f2}#header{height:48px;padding:24px 0px 24px 10px;overflow:hidden;white-space:nowrap}#medcalcheader{color:#232F3E;font-size:16px;white-space:nowrap}#medcalcheader a{font-size:44px;font-weight:bold;color:#232F3E;text-decoration:none;text-transform:uppercase}#warningbar{border-bottom:1px solid #808080;padding:8px 24px 8px 12px;background-color:#FFFFCC;overflow-x:hide}#toolbar{float:right;margin-top:12px;margin-right:16px;text-align:right;background-color:white;padding:4px 0px 4px 4px;border:1px solid gray}#toolbarinput{height:1.5em;width:120px;margin:0px;color:#333333;border:0}input[type=text]:nth-of-type(2)::-webkit-input-placeholder{color:gray}input[type=text]:nth-of-type(2):-moz-placeholder{color:gray}::-webkit-input-placeholder{color:gray}:-ms-input-placeholder{color:gray}::placeholder{color:gray}#leftbar{text-align:left;vertical-align:top;padding:0px 24px 0px 8px}#breadcrumbs{padding:0px;margin:18px 0px 0px 12px;font-size:1em}#breadcrumbs a{color:#000066}#breadcrumbs ol{margin:0;padding:0}#breadcrumbs li{list-style:none;display:inline-block;text-align:left}#content{padding:26px 16px 28px 12px;vertical-align:top;text-align:Justify;background-color:white;min-height:240px;max-width:100%}#content a{color:#0000aa}#content a:Hover{color:#b30000}#content a.button{font-family:Arial, Helvetica, sans-serif;border:1px solid black;padding:6px 12px 6px 12px;color:white;background-color:#107C0F;font-weight:bold}#content a.button:Hover, a.button:Hover{background-color:#444455;color:white}#amazonmanualad p{text-align:center}#newspanel{width:260px;float:right;margin:-12px 0px 24px 24px;border:1px solid gray;background-color:#f7f7f7;overflow:hidden}#newspanelheader{padding:12px;color:black;font-weight:bold;background-color:#d4dbee}#newspanelcontent{width:100%;padding:0px;background-color:#f7f7f7;text-align:left;height:180px}#newspanelcontent .date{font-weight:bold}#newspanelcontent p, #newspanelcontent li{text-align:left}#socialmediaframe{clear:both;padding:8px 18px 12px 12px}#socialmediaframe img{height:1.5em;margin-right:1em}#footer{clear:both;padding:24px 16px 12px 13px;font-size:12px;text-align:Left}#footerleft, #footermiddle, #footerright{padding-top:12px;padding-bottom:12px}#footerleft{text-align:left;padding-left:13px}#footermiddle{text-align:center}#footerright{text-align:right;padding-right:16px}mjx-container[jax="CHTML"][display="true"]{text-align:left}#bottommenu{clear:both;background-color:#232F3E;padding:6px 0px 6px 0px}a.booklink{text-decoration:none;font-weight:700;color:#bb55ff}a.bottommenu{padding:2px 2px 2px 12px;margin-right:10px;color:white;text-decoration:none;text-transform:uppercase;font-size:12px}a.bottommenu:Hover{color:#eeeebb}.columnlayout{-webkit-column-count:2;-moz-column-count:2;column-count:2}@media print{.noprint{display:none}.menubar{display:none}nav{display:none}#leftbar, #warningbar, #sidebarright{display:none}#toolbar{display:none}#rightsideblock{display:none}}@media all and (max-width:1520px){}@media all and (max-width:640px){.indent0{margin-left:0px}.indent{margin-left:25px}.maxw1{display:none}p.image{margin-left:0px}.formula{padding-left:0px}#leftbar{display:none}.columnlayout{-webkit-column-count:1;-moz-column-count:1;column-count:1}}@media all and (max-width:520px){#footermiddle{display:none}}@media all and (max-width:460px){#footerright{display:none}#toolbar{border:none;background-color:transparent}#toolbarinput{display:none}}@media all and (max-width:400px){#newspanel{width:100%;float:none;margin-left:0px;margin-top:0px}#newsiframe{width:100%}.mobilehide{display:none}}@media all and (max-width:328px){.indent{margin-left:0px}}#topmenu{width:100%;background-color:#232F3E;text-transform:uppercase;min-height:39px}#topmenuitems{display:none}#topmenu a{border-bottom:2px solid #232F3E}#topmenu a.topmenuitemactive{border-bottom:2px solid #107C0F}#topmenu a, #topmenubutton{padding:12px 12px 10px 12px;margin:0px;display:inline-block;text-decoration:none;color:white}#topmenu a:hover{background-color:#394E66;border-bottom:2px solid #EEDDBB}#topmenu ul, #topmenu li{margin:0;padding:0}#topmenu li{list-style:none;display:inline-block}#topmenu #topmenubutton{display:none}#topmenuarrow{float:right;width:0;height:0;margin-top:4px;margin-left:4px;border-left:7px solid transparent;border-right:7px solid transparent;border-top:7px solid #1F1F1F;display:inline-block}#sidebar{float:right;position:relative;margin:26px 16px 26px 26px}div.sidebaritem, div.sidebaritemselected{padding:3px 6px 3px 12px;cursor:pointer;background-color:#232F3E}div.sidebaritem{border-bottom:1px solid #273545}div.sidebaritemselected{border-bottom:1px solid #107C0F}div.sidebaritem:hover{background-color:#384B63;border-bottom:1px solid #EEDDBB}div.sidebaritemselected:hover{background-color:#384B63}a.sidebaritem{color:white;text-decoration:none}a.sidebaritem:hover{background-color:#384B63}#amazonmanualad{border:1px solid gray;padding:6px;width:160px}@media all and (max-width:600px){#sidebar{float:none;display:block;margin:0;border:0}#amazonmanualad{display:none}}</style>
+
+<link rel="stylesheet" type="text/css" href="./ROC curve analysis with MedCalc_files/styles_manualmenu.css">
+
+<style>
+h1 { padding-bottom: 6px; border-bottom: 1px solid #073F07; /* #888888; */ margin-bottom: 30px; }.h1 { margin-bottom: 24px; font-weight: bold; }p  { margin-left: 25px; }
+li>p  { margin-left: 0px; }
+#content ul { padding-left:30px; }
+#content li { margin-left: 20px; }
+#content ul ul { margin-left: 0px; padding-left: 14px; }
+#content ul ul li { list-style-image: url(/manual/_help/png/bullet2.png); padding-left:0px; margin-left:0px; }
+#content ul ul ul { margin-left: 14px; padding-left: 0px; }
+#content ul ul ul li { list-style-image: url(/manual/_help/png/bullet7.png); }
+.code { white-space: pre; margin-left: 48px; padding:6px; margin-bottom: 8px; font-family:monospace; background:#EEEEEE; }
+p.image  { margin-left: 48px; }
+p.formula  { margin-left: 48px; text-align: left;}
+.graph { margin-left: 25px; }
+.graphresult  { width: 100%; max-width:460px; border: 1px solid #CCCC99; margin-bottom: 12px; }
+#graphFormTable0, #graphFormTable1 { font-size:9pt; margin-left: 25px; background-color: #EEEEEE; border: 1px solid #CCCC99; margin-bottom: 6px; } 
+#graphFormTable0 td, #graphFormTable1 td { font-size:9pt; margin: 0px; padding: 3px; vertical-align:middle; }  
+#graphFormTable0 input, #graphFormTable1 input {padding: 1px; }
+#calcFormTable0 td, #calcFormTable1 td, #calcFormTable2 td { vertical-align:middle; padding-right:2px; }
+@media all and (max-width: 640px) { .graph, #graphFormTable0, #graphFormTable1, p, h3, h4, p.image, #content ul, ul, li { padding-left: 0px; margin-left: 0px; } }
+#content {padding-top: 18px;}  #leftbar {padding-top: 6px;} #loctable1, #loctable2 {  border: 1px solid #000000; background: #F7F7F7;} #loctable1 td, #loctable2 td {padding:6px; vertical-align: middle; } .lline {border-bottom: 1px solid #000000;} 
+
+</style>
+
+</head>
+<body>
+<header>
+<div id="headercontainer">
+<div id="header" class="innercontainer">
+	<div id="toolbar">
+		<form method="get" action="https://www.medcalc.org/search.php">
+		<input id="toolbarinput" placeholder="Search" type="search" maxlength="128" name="query" value="" title="Space for search keywords">
+		<input type="image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADxSURBVDhP3VTLFcIgEEwH+p6gV0tICZZgCelgKcEOUkIugRwtIaVYAiUoy8eQAALe1Pe4mGVmdmeWpvmL3w6GPYWxo8Bv7pxgOn/V3BH4lTIh1XmGh/dVoAeYLgsIn1GlIeC9+58wMRSDEsYfeDF2SYG3TjkSZ0GdOgRNFet5JgiDOwQEM22l52RVYs2cVahdzbAvMy4DxBmhsxJjE1NQ1TIC+KZsQV0HSFpkCjrr586Aq7goI9S3uxenfBa3YIlgSwTPmhEqM8HVjr5Xb+xSc10RpMCyKmIF6zWLb0cVsH5R7CNQtZ+fWOwz1VYp+bniF++Qz9PP+6AiAAAA7G1lVGH//jwAPwB4AG0AbAAgAHYAZQByAHMAaQBvAG4APQAiADEALgAwACIAIABlAG4AYwBvAGQAaQBuAGcAPQAiAFUAVABGAC0AMQA2ACIAPwA+AA0ACgA8AG0AZQB0AGEAPgA8AGMAbwBtAG0AbwBuAD4APABhAGMAdAB1AGEAbABfAGkAbQBhAGcAZQBfAHMAaQB6AGUAPgAyADAALwAyADAAPAAvAGEAYwB0AHUAYQBsAF8AaQBtAGEAZwBlAF8AcwBpAHoAZQA+ADwALwBjAG8AbQBtAG8AbgA+ADwALwBtAGUAdABhAD4ADQAKAOYRioEAAAAASUVORK5CYII=" name="Go" alt="Search" title="Search" style="vertical-align:middle; border:0; margin:0px; padding-right:6px; ">
+				</form>
+	</div>
+	<div id="medcalcheader"><a href="https://www.medcalc.org/index.php" title="Home">MedCalc<sup style="font-size:10px; vertical-align:26px; ">®</sup></a><p style="margin-left:2px; font-weight:bold">easy-to-use statistical software</p></div>
+</div>
+</div>
+</header>
+
+
+<nav>
+<div id="topmenucontainer">
+<div id="topmenu" class="innercontainer" style="border-bottom: 0px;">
+<a href="javascript:;" id="topmenubutton" onclick="return mcnet.ToggleDropDownMenu();" style="display: none;">Menu<div id="topmenuarrow"></div></a>
+<ul id="topmenuitems" style="display: block;">
+<li style="display: inline-block;"><a href="https://www.medcalc.org/index.php" title="Home" style="display: inline-block;">Home</a>
+</li><li style="display: inline-block;"><a href="https://www.medcalc.org/medcalc.php" style="display: inline-block;">Features</a>
+</li><li style="display: inline-block;"><a href="https://www.medcalc.org/download.php" title="Download" style="display: inline-block;">Download</a>
+</li><li style="display: inline-block;"><a href="https://www.medcalc.org/order.php" title="Order" style="display: inline-block;">Order</a>
+</li><li style="display: inline-block;"><a href="https://www.medcalc.org/contact.php" title="Contact us" style="display: inline-block;">Contact</a>
+</li><li style="display: inline-block;"><a href="https://www.medcalc.org/faq.php" style="display: inline-block;">FAQ</a>
+</li><li style="display: inline-block;"><a class="topmenuitemactive" href="https://www.medcalc.org/manual/index.php" title="Manual" style="display: inline-block;">Manual</a>
+</li></ul>
+</div>
+</div>
+</nav>
+
+<div id="contentcontainer" class="innercontainer">
+
+<nav><div id="breadcrumbs"><ol itemscope="" itemtype="http://schema.org/BreadcrumbList">	<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem" "="">
+					<a itemscope="" itemtype="http://schema.org/Thing" itemprop="item" href="https://www.medcalc.org/manual/index.php" id="https://www.medcalc.org/manual/index.php">
+					<span itemprop="name">Manual</span></a>
+					<meta itemprop="position" content="1"> »&nbsp;</li>	<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem" "="">
+					<a itemscope="" itemtype="http://schema.org/Thing" itemprop="item" href="https://www.medcalc.org/manual/roccurves.php" id="https://www.medcalc.org/manual/roccurves.php">
+					<span itemprop="name">ROC curve analysis</span></a>
+					<meta itemprop="position" content="2"></li>
+</ol>
+</div></nav>
+<table style="max-width:100%"><tbody><tr><td id="leftbar"><img id="showmanualmenu" src="./ROC curve analysis with MedCalc_files/hamburger_icon.svg" alt="Show menu" style="height:1.5em; width:1.5em; max-width:1.5em; display:none; margin-left:2px; margin-top:10px; cursor:pointer" onclick="showmenu()">
+<nav>
+<div id="leftmenu">
+<ul id="manualmenubar">
+<li><div style="inline-block;vertical-align:middle; background:#DDDDEA" onmouseover="this.style.background=&#39;#F9F9FB&#39;">
+<img id="closemanualmenu" src="./ROC curve analysis with MedCalc_files/closeleft.svg" alt="Collapase" style="height:1.5em; float:right; margin:4px 4px 0px 4px;  cursor:pointer" onclick="hidemenu()">
+<a href="https://www.medcalc.org/manual/index.php" style="height:24px; padding-top:6px"><b>Contents</b></a>
+</div>
+</li>
+<li><a href="https://www.medcalc.org/manual/introduction.php">Introduction</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/program_installation.php">Program installation</a></li>
+	<li><a href="https://www.medcalc.org/manual/autoupdate.php">Auto-update</a></li>
+	<li><a href="https://www.medcalc.org/manual/regional_settings_support.php">Regional settings support</a></li>
+	<li><a href="https://www.medcalc.org/manual/language.php">Selection of display language</a></li>	
+	<li><a href="https://www.medcalc.org/manual/medcalc_menu_bar.php">The MedCalc menu bar</a></li>
+	<li><a href="https://www.medcalc.org/manual/spreadsheet_data_window.php">The spreadsheet data window</a></li>
+	<li><a href="https://www.medcalc.org/manual/how_to_enter_data.php">How to enter data</a></li>
+	<li><a href="https://www.medcalc.org/manual/how_to_enter_dates.php">How to enter dates</a></li>
+	<li><a href="https://www.medcalc.org/manual/missing_values.php">Missing values</a></li>
+	<li><a href="https://www.medcalc.org/manual/data_checking.php">Data checking</a></li>
+	<li><a href="https://www.medcalc.org/manual/how_to_save_data.php">How to save data</a></li>
+	<li><a href="https://www.medcalc.org/manual/introduction_statistics.php">Statistics</a></li>
+	<li><a href="https://www.medcalc.org/manual/variables.php">Variables</a></li>
+	<li><a href="https://www.medcalc.org/manual/filters.php">Filters</a></li>
+	<li><a href="https://www.medcalc.org/manual/introduction_graphs.php">Graphs</a></li>
+	<li><a href="https://www.medcalc.org/manual/addgraphicalobjects.php">Add graphical objects</a></li>
+	<li><a href="https://www.medcalc.org/manual/graph-referencelines.php">Reference lines</a></li>
+	<li><a href="https://www.medcalc.org/manual/recalldialog.php">Recall dialog</a></li>
+	<li><a href="https://www.medcalc.org/manual/notes_editor.php">Notes editor</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/file_menu.php">File menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/new.php">New</a></li>
+	<li><a href="https://www.medcalc.org/manual/open.php">Open</a></li>
+	<li><a href="https://www.medcalc.org/manual/save.php">Save</a></li>
+	<li><a href="https://www.medcalc.org/manual/save_as.php">Save as</a></li>
+	<li><a href="https://www.medcalc.org/manual/add_file.php">Add file</a></li>
+	<li><a href="https://www.medcalc.org/manual/export.php">Export</a></li>
+	<li><a href="https://www.medcalc.org/manual/print_setup.php">Page setup</a></li>
+	<li><a href="https://www.medcalc.org/manual/print.php">Print</a></li>
+	<li><a href="https://www.medcalc.org/manual/properties.php">Properties</a></li>
+	<li><a href="https://www.medcalc.org/manual/exit.php">Exit</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/edit_menu.php">Edit menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/undo.php">Undo</a></li>
+	<li><a href="https://www.medcalc.org/manual/cut.php">Cut</a></li>
+	<li><a href="https://www.medcalc.org/manual/copy.php">Copy</a></li>
+	<li><a href="https://www.medcalc.org/manual/paste.php">Paste</a></li>
+	<li><a href="https://www.medcalc.org/manual/delete.php">Delete</a></li>
+	<li><a href="https://www.medcalc.org/manual/select_all.php">Select all</a></li>
+	<li><a href="https://www.medcalc.org/manual/find.php">Find</a></li>
+	<li><a href="https://www.medcalc.org/manual/find_and_replace.php">Find &amp; replace</a></li>
+	<li><a href="https://www.medcalc.org/manual/gotocell.php">Go to cell</a></li>
+	<li><a href="https://www.medcalc.org/manual/fill.php">Fill</a></li>
+	<li><a href="https://www.medcalc.org/manual/insert_remove.php">Insert - Remove</a></li>
+	<li><a href="https://www.medcalc.org/manual/transpose.php">Transpose</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/view_menu.php">View menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/spreadsheet.php">Spreadsheet</a></li>
+	<li><a href="https://www.medcalc.org/manual/show_formulas.php">Show formulas</a></li>
+	<li><a href="https://www.medcalc.org/manual/show_gridlines.php">Show gridlines</a></li>
+	<li><a href="https://www.medcalc.org/manual/contents_bar.php">Contents bar</a></li>
+	<li><a href="https://www.medcalc.org/manual/toolbars.php">Toolbars</a></li>
+	<li><a href="https://www.medcalc.org/manual/statusbar.php">Status bar</a></li>
+	<li><a href="https://www.medcalc.org/manual/full_screen.php">Full screen</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/formatmenu.php">Format menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/font.php">Font</a></li>
+	<li><a href="https://www.medcalc.org/manual/increase_font_size.php">Increase font size</a></li>
+	<li><a href="https://www.medcalc.org/manual/decrease_font_size.php">Decrease font size</a></li>
+	<li><a href="https://www.medcalc.org/manual/format_spreadsheet.php">Spreadsheet</a></li>
+	<li><a href="https://www.medcalc.org/manual/format_graph.php">Format graph</a></li>
+	<li><a href="https://www.medcalc.org/manual/graph_legend.php">Graph legend</a></li>
+	<li><a href="https://www.medcalc.org/manual/reset_graph.php">Reset graph titles and options</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/tools_menu.php">Tools menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/sort_rows.php">Sort rows</a></li>
+	<li><a href="https://www.medcalc.org/manual/exclude.php">Exclude &amp; Include</a></li>
+	<li><a href="https://www.medcalc.org/manual/fill_column.php">Fill column</a></li>
+	<li><a href="https://www.medcalc.org/manual/stackcolumns.php">Stack columns</a></li>
+	<li><a href="https://www.medcalc.org/manual/generaterandomsample.php">Generate random sample</a></li>
+	<li><a href="https://www.medcalc.org/manual/creategroups.php">Create groups<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/creategroupsfromquantiles.php">Create groups form quantiles</a></li>
+		<li><a href="https://www.medcalc.org/manual/creategroupsrandom.php">Create random groups</a></li>
+		<li><a href="https://www.medcalc.org/manual/creategroupsuser.php">Create user-defined groups</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/rankcases.php">Rank cases</a></li>
+	<li><a href="https://www.medcalc.org/manual/percentileranks.php">Percentile ranks</a></li>
+	<li><a href="https://www.medcalc.org/manual/z-scores.php">z-scores</a></li>
+	<li><a href="https://www.medcalc.org/manual/powertransformation.php">Power transformation</a></li>
+	<li><a href="https://www.medcalc.org/manual/matchcases.php">Case-Control matching</a>
+	</li><li><a href="https://www.medcalc.org/manual/edit_variables_list.php">Edit variables list</a></li>
+	<li><a href="https://www.medcalc.org/manual/edit_filters_list.php">Edit filters list</a></li>
+	<li><a href="https://www.medcalc.org/manual/select_variable_for_case_identification.php">Select variable for case identification</a></li>
+	<li><a href="https://www.medcalc.org/manual/enterkey.php">Enter key moves cell pointer</a></li>
+	<li><a href="https://www.medcalc.org/manual/options.php">Options</a></li>
+	</ul>
+	
+</li><li><a href="https://www.medcalc.org/manual/statistics_menu.php">Statistics menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/summary_statistics.php">Summary statistics<div style="display:inline-block; width:110px;">&nbsp;</div></a></li>
+	<li><a href="https://www.medcalc.org/manual/outliers.php">Outlier detection</a></li>
+	<li><a href="https://www.medcalc.org/manual/distribution_plots.php">Distribution plots<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/histogram.php">Histogram</a></li>
+		<li><a href="https://www.medcalc.org/manual/cumulative_frequency_distribution.php">Cumulative frequency distribution</a></li>
+		<li><a href="https://www.medcalc.org/manual/normal_plot.php">Normal plot</a></li>
+		<li><a href="https://www.medcalc.org/manual/dotplot.php">Dot plot</a></li>
+		<li><a href="https://www.medcalc.org/manual/box_and_whisker_plot.php">Box-and-whisker plot</a></li>
+		</ul>
+		</li>
+
+	<li><a href="https://www.medcalc.org/manual/correlation_menu.php">Correlation<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/correlation.php">Correlation coefficient</a></li>
+		<li><a href="https://www.medcalc.org/manual/partialcorrelation.php">Partial correlation</a></li>
+		<li><a href="https://www.medcalc.org/manual/rank_correlation.php">Rank correlation</a></li>
+		<li><a href="https://www.medcalc.org/manual/scatter_diagram.php">Scatter diagram</a></li>
+		</ul>
+		</li>
+	
+	<li><a href="https://www.medcalc.org/manual/regression_menu.php">Regression<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/regression.php">Regression</a></li>
+		<li><a href="https://www.medcalc.org/manual/scatter_diagram_regression_line.php">Scatter diagram &amp; regression line</a></li>
+		<li><a href="https://www.medcalc.org/manual/multiple_regression.php">Multiple regression</a></li>
+		<li><a href="https://www.medcalc.org/manual/logistic_regression.php">Logistic regression</a></li>
+		<li><a href="https://www.medcalc.org/manual/probitregression.php">Probit regression (Dose-Response analysis)</a></li>
+		<li><a href="https://www.medcalc.org/manual/nonlinearregression.php">Nonlinear regression</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/t-tests.php">T-tests<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/onesamplettest.php">One sample t-test</a></li>
+		<li><a href="https://www.medcalc.org/manual/ttest.php">Independent samples t-test</a></li>
+		<li><a href="https://www.medcalc.org/manual/pairedttest.php">Paired samples t-test</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/rank_sum_tests.php">Rank sum tests<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/signtest.php">Signed rank sum test (one sample)</a></li>
+		<li><a href="https://www.medcalc.org/manual/mannwhitney.php">Mann-Whitney test (independent samples)</a></li>
+		<li><a href="https://www.medcalc.org/manual/wilcoxon.php">Wilcoxon test (paired samples)</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/F-test.php">Variance ratio test (F-test)</a></li>
+	<li><a href="https://www.medcalc.org/manual/anova.php">ANOVA<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/one-way_analysis_of_variance.php">One-way analysis of variance</a></li>
+		<li><a href="https://www.medcalc.org/manual/two-way_analysis_of_variance.php">Two-way analysis of variance</a></li>
+		<li><a href="https://www.medcalc.org/manual/analysis-of-covariance.php">Analysis of covariance</a></li>
+		<li><a href="https://www.medcalc.org/manual/repeated-measures-anova.php">Repeated measures analysis of variance</a></li>
+		<li><a href="https://www.medcalc.org/manual/kruskal-wallis_test.php">Kruskal-Wallis test</a></li>
+		<li><a href="https://www.medcalc.org/manual/friedman_test.php">Friedman test</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/categorical.php">Crosstabs<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/frequency_table_chi-square_test.php">Chi-squared test</a></li>
+		<li><a href="https://www.medcalc.org/manual/fisher_exact_test.php">Fisher's exact test</a></li>
+		<li><a href="https://www.medcalc.org/manual/mcnemar_test.php">McNemar test</a></li>
+		<li><a href="https://www.medcalc.org/manual/cochranq.php">Cochran's Q test</a></li>
+		<li><a href="https://www.medcalc.org/manual/relativerisk.php">Relative risk &amp; Odds ratio</a></li>
+		<li><a href="https://www.medcalc.org/manual/frequencies_bar_charts.php">Frequencies bar charts</a></li>
+		</ul>
+		</li>
+
+	<li><a href="https://www.medcalc.org/manual/survival-analysis.php">Survival analysis<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/kaplan-meier.php">Kaplan-Meier survival analysis</a></li>
+		<li><a href="https://www.medcalc.org/manual/cox_proportional_hazards.php">Cox proportional-hazards regression</a></li>
+		</ul>
+		</li>
+
+	<li><a href="https://www.medcalc.org/manual/meta-analysis.php">Meta-analysis<div class="triangle"></div></a>
+		<ul>
+			<li><a href="https://www.medcalc.org/manual/meta-analysis-introduction.php">Introduction</a></li>
+			<li><a href="https://www.medcalc.org/manual/meta-analysis-continuousmeasure.php">Continuous measure</a></li>
+			<li><a href="https://www.medcalc.org/manual/meta-analysis-correlation.php">Correlation</a></li>
+			<li><a href="https://www.medcalc.org/manual/meta-analysis-proportion.php">Proportion</a></li>
+			<li><a href="https://www.medcalc.org/manual/meta-analysis-relativerisk.php">Relative risk</a></li>
+			<li><a href="https://www.medcalc.org/manual/meta-analysis-riskdifference.php">Risk difference</a></li>
+			<li><a href="https://www.medcalc.org/manual/meta-analysis-oddsratio.php">Odds ratio</a></li>
+			<li><a href="https://www.medcalc.org/manual/meta-analysis-ROC-area.php">Area under ROC curve</a></li>
+			<li><a href="https://www.medcalc.org/manual/meta-generic.php">Generic inverse variance method</a></li>
+		</ul>
+		</li>
+
+	<li><a href="https://www.medcalc.org/manual/serialmeasurements.php">Serial measurements</a></li>
+
+	<li><a href="https://www.medcalc.org/manual/referenceintervals.php">Reference intervals<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/referenceinterval.php">Reference interval</a></li>
+		<li><a href="https://www.medcalc.org/manual/age-related-reference-interval.php">Age-related reference interval</a></li>
+		</ul>
+		</li>
+
+	<li><a href="https://www.medcalc.org/manual/method_comparison.php">Method comparison &amp; evaluation<div class="triangle"></div></a>
+		<ul>
+			<li><a href="https://www.medcalc.org/manual/blandaltman.php">Bland &amp; Altman plot</a></li>
+			<li><a href="https://www.medcalc.org/manual/blandaltmanmultiple.php">Bland-Altman plot with multiple measurements per subject</a></li>
+			<li><a href="https://www.medcalc.org/manual/comparison_of_multiple_methods.php">Comparison of multiple methods</a></li>
+			<li><a href="https://www.medcalc.org/manual/mountain_plot.php">Mountain plot</a></li>
+			<li><a href="https://www.medcalc.org/manual/deming_regression.php">Deming regression</a></li>
+			<li><a href="https://www.medcalc.org/manual/passing-bablok_regression.php">Passing &amp; Bablok regression</a></li>
+			<li><a href="https://www.medcalc.org/manual/cvfromduplicates.php">Coefficient of variation from duplicate measurements</a></li>
+		</ul>
+		</li>
+
+	<li><a href="https://www.medcalc.org/manual/agreement.php">Agreement &amp; responsiveness<div class="triangle"></div></a>
+		<ul>
+			<li><a href="https://www.medcalc.org/manual/intraclasscorrelation.php">Intraclass correlation coefficient</a></li>
+			<li><a href="https://www.medcalc.org/manual/concordance.php">Concordance correlation coefficient</a></li>
+			<li><a href="https://www.medcalc.org/manual/kappa.php">Inter-rater agreement (kappa)</a></li>
+			<li><a href="https://www.medcalc.org/manual/cronbach_alpha.php">Cronbach's alpha</a></li>
+			<li><a href="https://www.medcalc.org/manual/responsiveness.php">Responsiveness</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/roccurves.php">ROC curve analysis<div class="triangle"></div></a>
+		<ul>
+			<li><a href="https://www.medcalc.org/manual/roc-curves.php">ROC curve analysis in MedCalc</a></li>
+			<li><a href="https://www.medcalc.org/manual/interactive_dot_diagram.php">Interactive dot diagram</a></li>
+			<li><a href="https://www.medcalc.org/manual/plot_versus_criterion.php">Plot versus criterion values</a></li>
+			<li><a href="https://www.medcalc.org/manual/plot_versus_prevalence.php">Plot versus prevalence</a></li>
+			<li><a href="https://www.medcalc.org/manual/roc_curve_analysis_predictive_values.php">Predictive values</a></li>
+			<li><a href="https://www.medcalc.org/manual/likelihood_ratios.php">Interval likelihood ratios</a></li>
+			<li><a href="https://www.medcalc.org/manual/comparison_of_roc_curves.php">Comparison of ROC curves</a></li>
+			<li><a href="https://www.medcalc.org/manual/comparison_of_independent_roc_curves.php">Comparison of independent ROC curves</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/createtables.php">Create tables<div class="triangle"></div></a>
+		<ul>
+			<li><a href="https://www.medcalc.org/manual/summarystatisticstable.php">Summary statistics table</a></li>
+			<li><a href="https://www.medcalc.org/manual/correlationtable.php">Correlation table</a></li>
+			<li><a href="https://www.medcalc.org/manual/comparisonindependentsamples.php">Comparison of independent samples</a></li>
+			<li><a href="https://www.medcalc.org/manual/comparisonpairedsamples.php">Comparison of paired samples</a></li>
+			<li><a href="https://www.medcalc.org/manual/multiplefrequencytables.php">Multiple frequency tables</a></li>
+		</ul>
+		</li>
+	</ul>
+	
+</li><li><a href="https://www.medcalc.org/manual/graphs_menu.php">Graphs menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/data_comparison_graphs.php">Data comparison graphs</a></li>
+	<li><a href="https://www.medcalc.org/manual/multiple_comparison_graphs.php">Multiple comparison graphs</a></li>
+	<li><a href="https://www.medcalc.org/manual/clustered_multiple_comparison_graphs.php">Clustered multiple comparison graphs</a></li>
+	<li><a href="https://www.medcalc.org/manual/multiple_variables_graphs.php">Multiple variables graphs</a></li>
+	<li><a href="https://www.medcalc.org/manual/clustered_multiple_variables_graphs.php">Clustered multiple variables graphs</a></li>
+	<li><a href="https://www.medcalc.org/manual/multiple_line_graph.php">Multiple line graph</a></li>
+	<li><a href="https://www.medcalc.org/manual/control_chart.php">Control chart</a></li>
+	<li><a href="https://www.medcalc.org/manual/youdenplot.php">Youden plot</a></li>
+	<li><a href="https://www.medcalc.org/manual/polarplot.php">Polar plot</a></li>
+	<li><a href="https://www.medcalc.org/manual/forestplot.php">Forest plot</a></li>
+	<li><a href="https://www.medcalc.org/manual/functionsplot.php">Function plot</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/tests_menu.php">Tests menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/test_for_one_mean.php">Test for one mean</a></li>
+	<li><a href="https://www.medcalc.org/manual/testoneproportion.php">Test for one proportion</a></li>
+	<li><a href="https://www.medcalc.org/manual/test_correlation.php">Correlation coefficient significance test</a></li>
+	<li><a href="https://www.medcalc.org/manual/chi-square_test.php">Chi-squared test</a></li>
+	<li><a href="https://www.medcalc.org/manual/fishers_exact_test_for_a_2x2_table.php">Fisher's exact test for a 2x2 table</a></li>
+	<li><a href="https://www.medcalc.org/manual/mcnemartest2.php">McNemar test on paired proportions</a></li>
+	<li><a href="https://www.medcalc.org/manual/comparison_of_means_t-test.php">Comparison of means (t-test)</a></li>
+	<li><a href="https://www.medcalc.org/manual/comparison_of_standard_deviations_f-test.php">Comparison of standard deviations (F-test)</a></li>
+	<li><a href="https://www.medcalc.org/manual/comparison_of_correlation_coefficients.php">Comparison of correlation coefficients</a></li>
+	<li><a href="https://www.medcalc.org/manual/comparison_of_proportions.php">Comparison of two proportions</a></li>
+	<li><a href="https://www.medcalc.org/manual/comparison_of_coefficients_of_variation.php">Comparison of coefficients of variation</a>
+	</li><li><a href="https://www.medcalc.org/manual/independentROCcurves.php">Comparison of areas under independent ROC curves</a></li>
+	<li><a href="https://www.medcalc.org/manual/rates.php">Confidence interval for a rate</a></li>
+	<li><a href="https://www.medcalc.org/manual/comparison_of_rates.php">Comparison of two rates</a></li>
+	<li><a href="https://www.medcalc.org/manual/relative_risk.php">Relative risk</a></li>
+	<li><a href="https://www.medcalc.org/manual/odds_ratio.php">Odds ratio</a></li>
+	<li><a href="https://www.medcalc.org/manual/inter-rater_agreement.php">Inter-rater agreement</a></li>
+	<li><a href="https://www.medcalc.org/manual/diagnostic_test.php">Diagnostic test</a></li>
+	<li><a href="https://www.medcalc.org/manual/likelihood_ratios_test.php">Likelihood ratios (2xk table)</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/sampling_menu.php">Sample size menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/sampling_introduction.php">Sample size calculation: Introduction</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_single_mean.php">Single mean</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_single_proportion.php">Single proportion</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_comparison_of_two_means.php">Comparison of two means</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_pairedsamples.php">Paired samples t-test</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_comparison_of_two_proportions.php">Comparison of two proportions</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_mcnemar.php">McNemar test</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_correlation.php">Correlation coefficient</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_survival.php">Survival analysis (logrank test)</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_blandaltman.php">Bland-Altman plot</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_ROC1.php">Area under ROC curve</a></li>
+	<li><a href="https://www.medcalc.org/manual/sampling_ROC2.php">Comparison of two ROC curves</a></li>
+	<li><a href="https://www.medcalc.org/manual/samplesize_CI.php">Confidence Interval estimation &amp; Precision&nbsp;&nbsp;<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/samplesize_CI_singlemean.php">Single mean</a></li>
+		<li><a href="https://www.medcalc.org/manual/samplesize_CI_singleproportion.php">Single proportion</a>
+		</li><li><a href="https://www.medcalc.org/manual/samplesize_CI_differencebetweenmeans.php">Difference between means</a>
+		</li><li><a href="https://www.medcalc.org/manual/samplesize_CI_pairedsamples.php">Mean difference between paired samples</a>
+		</li><li><a href="https://www.medcalc.org/manual/samplesize_CI_differencetwoproportions.php">Difference between proportions</a>
+		</li><li><a href="https://www.medcalc.org/manual/samplesize_CI_differencepairedproportions.php">Difference between paired proportions</a>
+		</li><li><a href="https://www.medcalc.org/manual/samplesize_CI_CVfromduplicates.php">Coefficient of Variation from duplicate measurements</a>
+		</li><li><a href="https://www.medcalc.org/manual/samplesize_regressionbasedreferencelimits.php">Regression-based reference limits</a>
+		</li></ul>
+		</li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/window_menu.php">Window menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/cascade.php">Cascade</a></li>
+	<li><a href="https://www.medcalc.org/manual/tile.php">Tile</a></li>
+	<li><a href="https://www.medcalc.org/manual/arrange_icons.php">Arrange icons</a></li>
+	<li><a href="https://www.medcalc.org/manual/split_window_remove_split.php">Split window - remove split</a></li>
+	<li><a href="https://www.medcalc.org/manual/close_all.php">Close all</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/help_menu.php">Help menu</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/medcalc_help.php">MedCalc help</a></li>
+	<li><a href="https://www.medcalc.org/manual/whats_new.php">What's new</a></li>
+	<li><a href="https://www.medcalc.org/manual/medcalc_on_the_web.php">MedCalc on the Web</a></li>
+	<li><a href="https://www.medcalc.org/manual/register.php">Register</a></li>
+	<li><a href="https://www.medcalc.org/manual/unregister.php">Unegister MedCalc</a></li>
+	<li><a href="https://www.medcalc.org/manual/howtociteMedCalc.php">How to cite MedCalc</a>
+	</li><li><a href="https://www.medcalc.org/manual/about_medcalc.php">About MedCalc</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/spreadsheet_overview.php">Spreadsheet overview&nbsp;</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/spreadsheet_introduction.php">Introduction</a></li>
+	<li><a href="https://www.medcalc.org/manual/operators.php">Operators</a></li>
+	<li><a href="https://www.medcalc.org/manual/relative_and_absolute_cell_addresses.php">Relative and absolute cell addresses</a></li>
+	<li><a href="https://www.medcalc.org/manual/complexnumbers.php">Complex numbers</a>
+	</li><li><a href="https://www.medcalc.org/manual/matrices.php">Matrices</a>
+	</li><li><a href="https://www.medcalc.org/manual/mathematical_functions.php">Mathematical functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/trigonometric_functions.php">Trigonometric functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/hyperbolic_functions.php">Hyperbolic functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/gamma_and_related_functions.php">Gamma function and related functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/engineering_functions.php">Engineering functions</a></li>	
+	<li><a href="https://www.medcalc.org/manual/complexnumber_functions.php">Complex number functions</a>
+	</li><li><a href="https://www.medcalc.org/manual/matrix_functions.php">Matrix functions</a>
+	</li><li><a href="https://www.medcalc.org/manual/statistical_functions.php">Statistical functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/statistical_functions_on_variables.php">Statistical functions on variables</a></li>
+	<li><a href="https://www.medcalc.org/manual/statistical_test_functions.php">Statistical test functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/probability_distribution_functions.php">Probability distribution functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/date_and_time_functions.php">Date and time functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/logical_functions.php">Logical functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/string_functions.php">String functions</a></li>
+	<li><a href="https://www.medcalc.org/manual/miscellaneous_functions.php">Miscellaneous functions</a></li>
+	</ul>
+</li><li><a href="https://www.medcalc.org/manual/appendices.php">Appendices</a>
+	<ul>
+	<li><a href="https://www.medcalc.org/manual/control_keys.php">Control keys</a></li>
+	<li><a href="https://www.medcalc.org/manual/notation_and_symbols.php">Notation and symbols</a></li>
+	<li><a href="https://www.medcalc.org/manual/computational_notes.php">Computational notes</a></li>
+	<li><a href="https://www.medcalc.org/manual/statistical_tables.php">Statistical tables<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/values_of_the_normal_distribution.php">Values of the Normal distribution</a></li>
+		<li><a href="https://www.medcalc.org/manual/t-distribution.php">Values of the t-distribution</a></li>
+		<li><a href="https://www.medcalc.org/manual/chi-square-table.php">Values of the Chi-squared distribution</a></li>
+		<li><a href="https://www.medcalc.org/manual/f-table.php">Values of the F-distribution</a></li>
+		<li><a href="https://www.medcalc.org/manual/logit_transformation_table.php">Logit transformation</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/miscellaneous_tables.php">Miscellaneous tables&nbsp;&nbsp;&nbsp;<div class="triangle"></div></a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/iso_language_codes.php">ISO language codes</a>
+		</li><li><a href="https://www.medcalc.org/manual/greek_alphabet.php">Greek alphabet</a></li>
+		<li><a href="https://www.medcalc.org/manual/ansi_character_set.php">ANSI character set</a>
+		</li><li><a href="https://www.medcalc.org/manual/international_system_of_units_si.php">SI units</a></li>
+		<li><a href="https://www.medcalc.org/manual/decimal_multiples_and_submultiples_of_si_units.php">Multiples and submultiples of SI units</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/tips.php">Tips and tricks</a>
+		<ul>
+		<li><a href="https://www.medcalc.org/manual/exporttoword.php">How to export your results to Microsoft Word</a></li>
+		<li><a href="https://www.medcalc.org/manual/variable_definelabels.php">How to define and use labels</a>
+		</li><li><a href="https://www.medcalc.org/manual/transforming_data_to_normality.php">Transforming data to normality</a></li>
+		<li><a href="https://www.medcalc.org/manual/autocomplete.php">Auto-complete function</a></li>
+		<li><a href="https://www.medcalc.org/manual/autovalues.php">Auto-values</a></li>
+		<li><a href="https://www.medcalc.org/manual/tipexclude.php">Exclude outliers</a></li>
+		<li><a href="https://www.medcalc.org/manual/graphpoint.php">Data point identification in graphs</a></li>
+		<li><a href="https://www.medcalc.org/manual/namegraph.php">Save and recall graphs and statistics</a></li>
+		<li><a href="https://www.medcalc.org/manual/graphinfo.php">Statistical info in graph windows</a></li>
+		<li><a href="https://www.medcalc.org/manual/movecursor.php">Controlling the movement of the cellpointer</a></li>
+		<li><a href="https://www.medcalc.org/manual/lockcursor.php">Locking the cellpointer in a selected area</a></li>
+		<li><a href="https://www.medcalc.org/manual/reorder_categorical_variable.php">How to reorder a categorical variable</a></li>
+		</ul>
+		</li>
+	<li><a href="https://www.medcalc.org/manual/references.php">References</a></li>
+	</ul>
+</li></ul>
+</div>
+</nav>
+</td><td><div id="content">
+
+<h1>ROC curve analysis</h1>
+<table style="margin-bottom:14px;">
+<tbody><tr><td class="bold" style="width:100px;">Command:</td>
+<td>Statistics<br><img src="./ROC curve analysis with MedCalc_files/mnext.png" alt="Next select">ROC curves<br><img src="./ROC curve analysis with MedCalc_files/mnext1.png" alt="Next select">ROC curve analysis</td></tr>
+</tbody></table>
+<h2>Description</h2>
+<!--content-->
+<p>Allows to create <b>ROC curve</b> and a complete sensitivity/specificity report. The ROC curve is a fundamental tool for diagnostic test evaluation.</p>
+<p>In a ROC curve the true positive rate (Sensitivity) is
+plotted in function of the false positive rate (100-Specificity) for different
+cut-off points of a parameter. Each point on the ROC
+curve represents a sensitivity/specificity pair corresponding to a particular
+decision threshold. The area under the ROC curve (<abbr title="Area Under Curve">AUC</abbr>) is a measure of how well a parameter
+can distinguish between two diagnostic groups (diseased/normal).</p>
+
+<h2>Theory summary</h2>
+
+<p>The diagnostic performance of a test, or the accuray of a test to discriminate diseased cases from normal cases is evaluated using Receiver Operating Characteristic (ROC) curve analysis (Metz, 1978; Zweig &amp; Campbell, 1993). ROC curves can also be used to compare the diagnostic performance of two or more laboratory or diagnostic tests (Griner et al., 1981).</p>
+<p>When you consider the results of a particular test in two populations, one population with a disease, the other population without the disease, you will rarely observe a perfect separation between the two groups. Indeed, the distribution of the test results will overlap, as shown in the following figure.</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/roc_intro1.png" alt="True negative, false negative, true positive and false positive fractions change when changing the criterion value." title="True negative, false negative, true positive and false positive fractions change when changing the criterion value." style=" max-width:100%; "></p>
+<p>For every possible cut-off point or criterion value you select to discriminate between the two populations, there will be some cases with the disease correctly classified as positive (TP = True Positive fraction), but some cases with the disease will be classified negative (FN = False Negative fraction). On the other hand, some cases without the disease will be correctly classified as negative (TN = True Negative fraction), but some cases without the disease will be classified as positive (FP = False Positive fraction).</p>
+
+<h2>Schematic outcomes of a test</h2>
+
+<p>The different fractions (TP, FP, TN, FN) are represented in the following table.</p>
+<p>
+</p><table id="loctable1" class="indent">
+<tbody><tr>
+<td>&nbsp;</td><td class="lline"><b>Disease</b></td><td class="lline">&nbsp;</td>
+<td class="lline">&nbsp;</td><td class="lline">&nbsp;</td><td class="lline">&nbsp;</td>
+<td>&nbsp;</td><td>&nbsp;</td>
+</tr>
+<tr>
+<td class="lline"><b>Test</b></td><td class="lline"><b>Present</b></td><td class="center lline"><b>n</b></td><td class="lline">&nbsp;</td>
+<td class="lline"><b>Absent</b></td><td class="center lline"><b>n</b></td><td class="lline">&nbsp;</td><td class="center lline">
+<b>Total</b></td>
+</tr>
+<tr>
+<td><b>Positive</b></td><td>True Positive (TP)</td><td class="center"><i>a</i></td><td>&nbsp;</td>
+<td>False Positive (FP)</td><td class="center">
+<i>c</i></td><td>&nbsp;</td><td class="center"><i>a&nbsp;+&nbsp;c</i></td>
+</tr>
+<tr>
+<td><b>Negative</b></td><td>False Negative (FN)</td><td class="center"><i>b</i></td>
+<td>&nbsp;</td>
+<td>True Negative (TN)</td><td class="center"><i>d</i></td><td>&nbsp;</td>
+<td class="center"><i>b&nbsp;+&nbsp;d</i></td>
+</tr>
+<tr>
+<td><b>Total</b></td><td>&nbsp;</td><td class="center"><i>a&nbsp;+&nbsp;b</i></td><td>&nbsp;</td><td>&nbsp;</td>
+<td class="center"><i>c&nbsp;+&nbsp;d</i> </td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</tbody></table>
+<p></p>
+<p>&nbsp;</p>
+
+<p>The following statistics can be defined:
+</p><p>
+                       
+</p><table id="loctable2" style="margin-top: 3px; margin-bottom: 6px;" class="indent">
+<tbody><tr>
+<td><b>Sensitivity</b></td>
+<td><table><tbody><tr><td class="center lline" style="padding-bottom:0px;">a</td></tr><tr><td style="padding-top:0px;">a + b</td></tr></tbody></table></td>
+<td>&nbsp;</td>
+<td><b>Specificity</b></td>
+<td><table><tbody><tr><td class="center lline" style="padding-bottom:0px;">d</td></tr><tr><td style="padding-top:0px;">c + d</td></tr></tbody></table></td>
+</tr>
+<tr>
+<td><b>Positive<br>Likelihood<br>Ratio</b></td>
+<td><table><tbody><tr><td class="center lline" style="padding-bottom:0px;">Sensitivity</td></tr><tr><td class="center" style="padding-top:0px;">1 - Specificity</td></tr></tbody></table></td>
+<td>&nbsp;</td>
+<td><b>Negative<br>Likelihood<br>Ratio</b></td>
+<td><table><tbody><tr><td class="center lline" style="padding-bottom:0px;">1 - Sensitivity</td></tr><tr><td class="center" style="padding-top:0px;">Specificity</td></tr></tbody></table></td>
+</tr>
+<tr>
+<td><b>Positive<br>Predictive<br>Value</b></td>
+<td><table><tbody><tr><td class="center lline" style="padding-bottom:0px;">a</td></tr><tr><td style="padding-top:0px;">a + c</td></tr></tbody></table></td>
+<td>&nbsp;</td>
+<td><b>Negative<br>Predictive<br>Value</b></td>
+<td><table><tbody><tr><td class="center lline" style="padding-bottom:0px;">d</td></tr><tr><td style="padding-top:0px;">b + d</td></tr></tbody></table></td>
+</tr>
+</tbody></table>
+
+<p></p>
+<ul>
+<li><i>Sensitivity</i>: probability that a test result will be positive when the disease is present (true positive rate, expressed as a percentage).
+	<br>= a&nbsp;/&nbsp;(a+b)
+</li><li><i>Specificity</i>: probability that a test result will be negative when the disease is not present (true negative rate, expressed as a percentage).
+	<br>= d&nbsp;/&nbsp;(c+d)
+</li><li><i>Positive likelihood ratio</i>: ratio between the probability of a positive test result given the <i>presence</i> of the disease and the probability of a positive test result given the <i>absence</i> of the disease, i.e.
+	<br>= True positive rate / False positive rate = Sensitivity / (1-Specificity)
+</li><li><i>Negative likelihood ratio</i>: ratio between the probability of a negative test result given the <i>presence</i> of the disease and the probability of a negative test result given the <i>absence</i> of the disease, i.e.
+	<br>= False negative rate / True negative rate = (1-Sensitivity) / Specificity
+</li><li><i>Positive predictive value</i>: probability that the disease is present when the test is positive (expressed as a percentage).
+	<br>= a&nbsp;/&nbsp;(a+c)
+</li><li><i>Negative predictive value</i>: probability that the disease is not present when the test is negative (expressed as a percentage).
+	<br>= d&nbsp; /&nbsp;(b+d)
+</li></ul>
+
+<h2>Sensitivity and specificity versus criterion value</h2>
+
+<p>When you select a higher criterion value, the false positive fraction will decrease with increased specificity but on the other hand the true positive fraction and sensitivity will decrease:
+</p><p class="image"><img src="./ROC curve analysis with MedCalc_files/roc_intro2.png" alt="Sensitivity and specificity versus criterion value." title="Sensitivity and specificity versus criterion value." style=" max-width:100%; "></p>
+<p>When you select a lower threshold value, then the true positive fraction and sensitivity will increase. On the other hand the false positive fraction will also increase, and therefore the true negative fraction and specificity will decrease.
+
+</p><h2>The ROC curve</h2>
+
+<p>In a Receiver Operating Characteristic (ROC) curve the true positive rate (Sensitivity) is plotted in function of the false positive rate (100-Specificity) for different cut-off points. Each point on the ROC curve represents a sensitivity/specificity pair corresponding to a particular decision threshold. A test with perfect discrimination (no overlap in the two distributions) has a ROC curve that passes through the upper left corner (100% sensitivity, 100% specificity). Therefore the closer the ROC curve is to the upper left corner, the higher the overall accuracy of the test (Zweig &amp;  Campbell, 1993).</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/roc_intro3.png" alt="Example of ROC graph" title="Example of ROC graph" style=" max-width:100%; "></p>
+
+<h2>How to enter data for ROC curve analysis</h2>
+
+<p>In order to perform ROC curve analysis in MedCalc you should have a measurement
+of interest (= the parameter you want to study) and an independent diagnosis which
+classifies your study subjects into two distinct groups: a diseased and non-diseased group.
+The latter diagnosis should be independent from the measurement of interest.</p>
+<p>In the spreadsheet, create a column DIAGNOSIS and a column for the variable of
+interest, e.g. TEST1.  For every study subject enter a code for the diagnosis as follows:
+1 for the diseased cases, and 0 for the non-diseased or normal cases.
+In the TEST1 column, enter the measurement of interest (this can be measurements,
+grades, etc. - if the data are categorical, code them with numerical values).</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/rocc_datainput.png" alt="Data for ROC curve analysis" title="Data for ROC curve analysis" style=" max-width:100%; "></p>
+
+<h2>Required input</h2>
+
+<p>Complete the ROC curve analysis dialog box as follows:</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/rocc1.png" alt="Slope statistic S" title="Slope statistic S" style=" max-width:100%; "></p>
+<p><b>Data</b></p>
+<ul>
+<li><b>Variable</b>: select the variable of interest.
+</li><li><b>Classification variable</b>: select or enter a a dichotomous variable indicating diagnosis (0=negative, 1=positive).<p></p>If your data are coded differently, you can use the <a href="https://www.medcalc.org/manual/define_status.php">Define status</a> tool to recode your data.
+</li><li><b>Filter</b>: (optionally) a filter in order to include only a selected subgroup of cases (e.g. AGE&gt;21, SEX="Male").
+</li></ul>
+
+<p><b>Methodology</b>:</p>
+<ul>
+<li><b>DeLong et al.</b>: use the method of DeLong et al. (1988) for the calculation of the Standard Error of the Area Under the Curve (recommended).
+</li><li><b>Hanley &amp; McNeil</b>: use the method of Hanley &amp; McNeil (1982) for the calculation of the Standard Error of the Area Under the Curve.
+</li><li><b>Binomial exact Confidence Interval for the <abbr title="Area Under Curve">AUC</abbr></b>: calculate an exact Binomial Confidence Interval for the Area Under the Curve (recommended). If this option is not selected, the Confidence Interval is calculated as <abbr title="Area Under Curve">AUC</abbr> ± 1.96 its Standard Error.
+</li></ul>
+
+<p><b>Disease prevalence</b>
+
+</p><p>Whereas <i>sensitivity</i> and <i>specificity</i>, and therefore the ROC curve, and <i>positive</i> and <i>negative likelihood ratio</i> are independent of disease prevalence, <i>positive</i> and <i>negative predictive values</i> are highly dependent on disease prevalence or prior probability of disease. Therefore when disease prevalence is unknown, the program cannot calculate <i>positive</i> and <i>negative predictive values</i>.</p>
+
+<p>Clinically, the disease prevalence is the same as the probability of disease being present before the test is performed (prior probability of disease).</p>
+
+<ul>
+<li><b>Unknown</b>: select this option when the disease prevalence is unknown, or irrelevant for the current statistical analysis.
+</li><li><b>The ratio of cases in the positive and negative groups reflects the prevalence of the disease</b>: if the sample sizes in the positive and the negative group reflect the real prevalence of the disease in the population, this can be indicated by selecting this option.
+</li><li><b>Other value (%)</b>: alternatively you can enter a value for the disease prevalence, expressed as a percentage.<p></p>
+</li></ul>
+
+<p><b>Options</b>
+</p><ul>
+<li><b>List criterion values with test characteristics</b>: option to create a list of criterion values corresponding with the coordinates of the ROC curve, with associated sensitivity, specificity, likelihood ratios and predictive values (if disease prevalence is known).
+	<ul>
+	<li><b>Include all observed criterion values</b>: When you select this option, the program will list sensitivity and specificity for all possible threshold values. If this option is not selected, then the program will only list the more important points of the ROC curve: for equal sensitivity/specificity it will give the threshold values (criterion values) with the highest specificity/sensitivity.
+	</li></ul>
+</li><li><b>95% Confidence Interval</b> for sensitivity/specificity, likelihood ratio and predictive values: select the Confidence Intervals you require.
+</li><li><b>Calculate optimal criterion value taking into account costs</b>: option to calculate the optimal criterion value taking into account the disease prevalence and cost of false and true positive and negative decisions (Zweig &amp; Campbell, 1993). This option is only available if disease prevalence is known (see above).
+	<ul>
+	<li>FPc: the cost of a false positive decision.
+	</li><li>FNc: the cost of a false negative decision.
+	</li><li>TPc: the cost of a true positive decision.
+	</li><li>TNc: the cost of a true negative decision.
+	</li></ul>
+
+These data are used to calculate a parameter S as follows:<p></p>
+
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/slope_m.png" alt="Slope statistic S" title="Slope statistic S" style=" max-width:100%; "></p>
+
+where P denotes the prevalence in the target population (Greiner et al., 2000). 
+The point on the ROC curve where a line with this slope S touches the curve is the optimal operating point, taking into account prevalence and the costs of the different decisions.<p></p>
+Costs can be financial costs or health costs, but all 4 cost factors need to be expressed on a common scale. Benefits can be expressed as negative costs. 
+Suppose a false negative (FN) decision is judged to be twice as costly as a false positive (FP) decision, and no assumptions are made about the costs for true positive and true negative decisions. Then for FNc you enter 2, for FPc enter 1 and enter 0 for both TPc and TNc.<p></p>
+
+Because the slope S must be a positive number:<p></p>
+	<ul>
+	<li>FPc cannot be equal to TNc
+	</li><li>FNc cannot be equal to TPc
+	</li><li>When TNc is larger than FPc then TPc must be larger than FNc
+	</li><li>When TNc is smaller than FPc then TPc must be smaller than FNc
+	</li></ul>
+The parameter S is "cost-neutral" when (FPc-TNc)/(FNc-TPc) evaluates to 1, that is when FPc-TNc equals FNc-TPc. In this case S, and the "optimal criterion value" depends only on the disease prevalence.<p></p>
+
+</li><li><b>Advanced</b>: click this button for some advanced options:<p></p>
+	These options require bootstrapping and are computationally intensive and time consuming.<p></p>
+	<ul>
+	<li><b>Estimation of sensitivity and specificity at fixed specificity and sensitivity</b>: compile a table with estimation of sensitivity and specificity, with a BC<sub>a</sub> bootstrapped 95% confidence interval (Efron, 1987; Efron &amp; Tibshirani, 1993), for a fixed and prespecified specificity and sensitivity of 80%, 90%, 95% and 97.5% (Zhou et al., 2002).
+	</li><li><b>Bootstrap Youden index confidence interval</b>: calculate a BC<sub>a</sub> bootstrapped 95% confidence interval for the Youden index and its associated criterion value.
+	</li><li><b>Bootstrap replications</b>: enter the number of bootstrap replications. 1000 replications is a number commonly encountered in the literature. High numbers increase accuracy but also increase processing time.
+	</li><li><b>Random-number seed</b>: this is the seed for the random number generator. Enter 0 for a random seed; this can result in different confidence intervals when the procedure is repeated. Any other value will give a repeatable "random" sequence, which will result in repeatable values for the confidence intervals.
+	</li></ul>
+
+</li></ul>
+
+<p><b>ROC graph</b></p>
+<ul>
+<li>Select <b>Display ROC curve window</b> to obtain the graph in a separate window.<p></p>
+	Options:<p></p>
+	<ul>
+	<li>mark points corresponding to criterion values.
+	</li><li>display 95% Confidence Bounds for the ROC curve (Hilgers, 1991).
+	</li></ul>
+</li></ul>
+
+<h2>Results</h2>
+
+<h3>Sample size</h3>
+
+<p>First the program displays the number of observations in the two groups.
+Concerning sample size, it has been suggested that <i>meaningful qualitative conclusions</i> can be drawn from ROC experiments
+performed with a total of about 100 observations (Metz, 1978).</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/roc_res1.png" alt="ROC report - sample size" title="ROC report - sample size" style=" max-width:100%; "></p>
+
+<h3>Area under the ROC curve, with standard error and 95% Confidence Interval</h3>
+
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/roc_res2.png" alt="ROC report - Area Under the Curve" title="ROC report - Area Under the Curve" style=" max-width:100%; "></p>
+<p>This value can be interpreted as follows (Zhou, Obuchowski &amp; McClish, 2002):
+	</p><ul>
+	<li>the average value of sensitivity for all possible values of specificity;
+	</li><li>the average value of specificity for all possible values of sensitivity;
+	</li><li>the probability that a randomly selected individual from the positive group has a test result indicating greater suspicion than that for a randomly chosen individual from the negative group.
+	</li></ul>
+<p>When the variable under study cannot distinguish between the two groups, i.e. where there is no difference between the two distributions, the area will be equal to 0.5 (the ROC curve will coincide with the diagonal). When there is a perfect separation of the values of the two groups, i.e. there no overlapping of the distributions, the area under the ROC curve equals 1 (the ROC curve will reach the upper left corner of the plot).
+</p><p>The 95% Confidence Interval is the interval in which the true (population) Area under the ROC curve lies with 95% confidence.
+</p><p>The Significance level or P-value is the probability that the observed sample Area under the ROC curve is found when in fact, the true (population) Area under the ROC curve is 0.5 (null hypothesis: Area = 0.5). If P is small (P&lt;0.05) then it can be concluded that the Area under the ROC curve is significantly different from 0.5 and that therefore there is evidence that the laboratory test does have an ability to distinguish between the two groups.
+
+</p><h3>Youden index</h3>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/roc_res3.png" alt="ROC report - Youden index" title="ROC report - Youden index" style=" max-width:100%; "></p>
+<p>The Youden index <b><i>J</i></b> (Youden, 1950) is defined as:
+</p><p class="indent">J = max { sensitivity<sub><i>c</i></sub> + specificity<sub><i>c</i></sub> - 1 }</p><p>
+</p><p>where <i>c</i> ranges over all possible criterion values.</p>
+<p>Graphically, <i>J</i> is the maximum vertical distance between the ROC curve and the diagonal line.</p>
+<p>The criterion value corresponding with the Youden index J is the optimal criterion value only when disease prevalence is 50%, equal weight is given to sensitivity and specificity, and costs of various decisions are ignored.
+</p><p>When the corresponding Advanced option has been selected, MedCalc will calculate BC<sub>a</sub> bootstrapped 95% confidence intervals (Efron, 1987; Efron &amp; Tibshirani, 1993) for both the Youden index and it's corresponding criterion value.</p>
+
+<h3>Optimal criterion</h3>
+<p class="small">This panel is only displayed when disease prevalence and cost parameters are known.</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/roc_res4.png" alt="ROC report - Optimal criterion" title="ROC report - Optimal criterion" style=" max-width:100%; "></p>
+<p>The optimal criterion value takes into account not only sensitivity and specificity, but also disease prevalence, and costs of various decisions. When these data are known, MedCalc will calculate the optimal criterion and associated sensitivity and specificity. And when the corresponding Advanced option has been selected, MedCalc will calculate BC<sub>a</sub> bootstrapped 95% confidence intervals (Efron, 1987; Efron &amp; Tibshirani, 1993) for these parameters.</p>
+
+<p>When a test is used either for the purpose of screening or to exclude a diagnostic possibility, a cut-off value with a higher sensitivity may be selected; and when a the test is used to confirm a disease, a higher specificity may be required.</p>
+
+<h3>Summary table</h3>
+<p class="small">This panel is only displayed when the corresponding Advanced option has been selected.</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/roc_res5.png" alt="ROC report - summary table" title="ROC report - summary table" style=" max-width:100%; "></p>
+<p>The summary table displays the estimated specificity for a range of fixed and pre-specified sensitivities of 80, 90, 95 and 97.5% as well as estimated sensitivity for a range of fixed and pre-specified specificities (Zhou et al., 2002), with the corresponding criterion values.
+</p><p>Confidence intervals are BC<sub>a</sub> bootstrapped 95% confidence intervals (Efron, 1987; Efron &amp; Tibshirani, 1993).</p>
+
+<h3>Criterion values and coordinates of the ROC curve</h3>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/roc_res6.png" alt="ROC report - criterion values and coordinates of the ROC curve" title="ROC report - criterion values and coordinates of the ROC curve" style=" max-width:100%; "></p>
+<p>This section of the results window lists the different filters or cut-off values with their corresponding sensitivity and specificity of the test, and the positive (+LR) and negative likelihood ratio (-LR). When the disease prevalence is known, the program will also report the positive predictive value (+PV) and the negative predictive value (-PV).
+</p><p>When you did not select the option <i>Include all observed criterion values</i>, the program only lists the more important points of the ROC curve: for equal sensitivity (resp. specificity) it gives the threshold value (criterion value) with the highest specificity (resp. sensitivity). When you do select the option <i>Include all observed criterion values</i>, the program will list sensitivity and specificity for all possible threshold values.</p>
+	<ul>
+	<li><b>Sensitivity</b> (with optional 95% Confidence Interval): Probability that a test result will be positive when the disease is present (true positive rate).
+	</li><li><b>Specificity</b> (with optional 95% Confidence Interval): Probability that a test result will be negative when the disease is not present (true negative rate).
+	</li><li><b>Positive likelihood ratio</b> (with optional 95% Confidence Interval): Ratio between the probability of a positive test result given the presence of the disease and the probability of a positive test result given the absence of the disease.
+	</li><li><b>Negative likelihood ratio</b> (with optional 95% Confidence Interval): Ratio between the probability of a negative test result given the presence of the disease and the probability of a negative test result given the absence of the disease.
+	</li><li><b>Positive predictive value</b> (with optional 95% Confidence Interval): Probability that the disease is present when the test is positive.
+	</li><li><b>Negative predictive value</b> (with optional 95% Confidence Interval): Probability that the disease is not present when the test is negative.
+	</li><li><b>Cost</b><sup>*</sup>: The average cost resulting from the use of the diagnostic test at that decision level. Note that the cost reported here excludes the "overhead cost", i.e. the cost of doing the test, which is constant at all decision levels.<p></p>
+		<span class="small"><sup>*</sup>This column is only displayed when disease prevalence and cost parameters are known.</span>
+	</li></ul>
+	
+
+<p>Sensitivity, specificity, positive and negative predictive value as well as disease prevalence are expressed as percentages. 
+</p><p>Confidence intervals for sensitivity and specificity are "exact" Clopper-Pearson confidence intervals.</p>
+<p>Confidence intervals for the likelihood ratios are calculated using the "Log method" as given on page 109 of Altman et al. 2000.</p>
+<p>Confidence intervals for the predictive values are the standard logit confidence intervals given by Mercaldo et al. 2007.</p>	
+	
+<a name="ROCCURVE"></a><h2>ROC curve</h2>
+
+<p>The ROC curve will be displayed in a second window when you have selected the corresponding option in the dialog box.</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/rocc2_b.png" alt="ROC curve option." title="ROC curve option." style=" max-width:100%; "></p>
+<p>In a ROC curve the true positive rate (Sensitivity) is plotted in function of the false positive rate (100-Specificity) for different cut-off points. Each point on the ROC curve represents a sensitivity/specificity pair corresponding to a particular decision threshold. A test with perfect discrimination (no overlap in the two distributions) has a ROC curve that passes through the upper left corner (100% sensitivity, 100% specificity). Therefore the closer the ROC curve is to the upper left corner, the higher the overall accuracy of the test (Zweig &amp; Campbell, 1993).</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/rocc3.png" alt="ROC curve." title="ROC curve." style=" max-width:100%; "></p>
+<p>When you click on a specific point of the ROC curve, the corresponding cut-off point with sensitivity and specificity will be displayed.</p>
+
+<h2>Presentation of results</h2>
+
+<p>The prevalence of a disease may be different in different clinical settings. For instance the pre-test probability for a positive test will be higher when a patient consults a specialist than when he consults a general practitioner. Since positive and negative predictive values are sensitive to the prevalence of the disease, it would be misleading to compare these values from different studies where the prevalence of the disease differs, or apply them in different settings.</p>
+<p>The data from the results window can be summarized in a table. The sample size in the two groups should be clearly stated. The table can contain a column for the different criterion values, the corresponding sensitivity (with 95% <abbr title="Confidence Interval">CI</abbr>), specificity (with 95% <abbr title="Confidence Interval">CI</abbr>), and possibly the positive and negative predictive value. The table should not only contain the test's characteristics for one single cut-off value, but preferably there should be a row for the values corresponding with a sensitivity of 90%, 95% and 97.5%, specificity of 90%, 95% and 97.5%, and the value corresponding with the Youden index or highest accuracy.</p>
+<p>With these data, any reader can calculate the negative and positive predictive value applicable in his own clinical setting when the knows the prior probability of disease (pre-test probability or prevalence of disease) in this setting, by the following formulas based on Bayes' theorem:</p>
+
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/image88.png" alt="Positive predictive value formula according to Bayes&#39; theorem." title="Positive predictive value formula according to Bayes&#39; theorem." style=" max-width:100%; "></p>
+<p>and</p>
+<p class="image"><img src="./ROC curve analysis with MedCalc_files/image89.png" alt="Negative  predictive value formula according to Bayes&#39; theorem." title="Negative  predictive value formula according to Bayes&#39; theorem." style=" max-width:100%; "></p>
+
+<p>The negative and positive likelihood ratio must be handled with care because they are easily and commonly misinterpreted.</p>
+
+<h2>Literature</h2>
+
+<ul>
+<li>DeLong ER, DeLong DM, Clarke-Pearson DL (1988) Comparing the areas under two or more correlated receiver operating characteristic curves: a nonparametric approach. Biometrics 44:837-845.  <a class="undecorated" href="http://www.ncbi.nlm.nih.gov/pubmed/3203132"><img src="./ROC curve analysis with MedCalc_files/pubmed.gif" alt="PubMed" title="PubMed link" style="vertical-align:bottom"></a></li><li>Efron B (1987) Better Bootstrap Confidence Intervals. Journal of the American Statistical Association 82:171-185.
+</li><li>Efron B, Tibshirani RJ (1993) An introduction to the Bootstrap. Chapman &amp; Hall/CRC.  
+</li><li>Greiner M, Pfeiffer D, Smith RD (2000) Principles and practical application of the receiver-operating characteristic analysis for diagnostic tests. Preventive Veterinary Medicine 45:23-41.  <a class="undecorated" href="http://www.ncbi.nlm.nih.gov/pubmed/10802332"><img src="./ROC curve analysis with MedCalc_files/pubmed.gif" alt="PubMed" title="PubMed link" style="vertical-align:bottom"></a></li><li>Griner PF, Mayewski RJ, Mushlin AI, Greenland P (1981) Selection and interpretation of diagnostic tests and procedures. Annals of Internal Medicine 94:555-600.  <a class="undecorated" href="http://www.ncbi.nlm.nih.gov/pubmed/6452080"><img src="./ROC curve analysis with MedCalc_files/pubmed.gif" alt="PubMed" title="PubMed link" style="vertical-align:bottom"></a></li><li>Hanley JA, Hajian-Tilaki KO (1997) Sampling variability of nonparametric estimates of the areas under receiver operating characteristic curves: an update. Academic Radiology 4:49-58.  <a class="undecorated" href="http://www.ncbi.nlm.nih.gov/pubmed/9040870"><img src="./ROC curve analysis with MedCalc_files/pubmed.gif" alt="PubMed" title="PubMed link" style="vertical-align:bottom"></a></li><li>Hanley JA, McNeil BJ (1982) The meaning and use of the area under a receiver operating characteristic (ROC) curve.  Radiology 143:29-36.  <a class="undecorated" href="http://www.ncbi.nlm.nih.gov/pubmed/7063747"><img src="./ROC curve analysis with MedCalc_files/pubmed.gif" alt="PubMed" title="PubMed link" style="vertical-align:bottom"></a></li><li>Hilgers RA (1991) Distribution-free confidence bounds for ROC curves. Methods of Information in Medicine 30:96-101.   <a class="undecorated" href="http://www.ncbi.nlm.nih.gov/pubmed/1857255"><img src="./ROC curve analysis with MedCalc_files/pubmed.gif" alt="PubMed" title="PubMed link" style="vertical-align:bottom"></a></li><li>Mercaldo ND, Lau KF, Zhou XH (2007) Confidence intervals for predictive values with an emphasis to case-control studies. Statistics in Medicine 26:2170-2183.  <a class="undecorated" href="http://www.ncbi.nlm.nih.gov/pubmed/16927452"><img src="./ROC curve analysis with MedCalc_files/pubmed.gif" alt="PubMed" title="PubMed link" style="vertical-align:bottom"></a></li><li>Metz CE (1978) Basic principles of ROC analysis. Seminars in Nuclear Medicine 8:283-298.  <a class="undecorated" href="http://www.ncbi.nlm.nih.gov/pubmed/112681"><img src="./ROC curve analysis with MedCalc_files/pubmed.gif" alt="PubMed" title="PubMed link" style="vertical-align:bottom"></a></li><li>Youden WJ (1950) An index for rating diagnostic tests. Cancer 3:32-35.
+</li><li>Zhou XH, Obuchowski NA, McClish DK (2002) Statistical methods in diagnostic medicine. Wiley-Interscience.
+</li><li>Zweig MH, Campbell G (1993) Receiver-operating characteristic (ROC) plots: a fundamental evaluation tool in clinical medicine. Clinical Chemistry 39:561-577.  <a class="undecorated" href="http://www.ncbi.nlm.nih.gov/pubmed/8472349"><img src="./ROC curve analysis with MedCalc_files/pubmed.gif" alt="PubMed" title="PubMed link" style="vertical-align:bottom"></a></li></ul>
+
+<!--/content-->
+<h2>See also</h2>
+<ul>
+<li><a href="https://www.medcalc.org/manual/sampling_ROC1.php">Sample size calculation: area under ROC curve</a>
+</li><li><a href="https://www.medcalc.org/manual/interactive_dot_diagram.php">Interactive dot diagram</a>
+</li><li><a href="https://www.medcalc.org/manual/plot_versus_criterion.php">Plot versus criterion values</a>
+</li><li><a href="https://www.medcalc.org/manual/roc_curve_analysis_predictive_values.php">Predictive values</a>
+</li><li><a href="https://www.medcalc.org/manual/likelihood_ratios.php">Interval likelihood ratios</a>
+</li><li><a href="https://www.medcalc.org/manual/comparison_of_roc_curves.php">Comparison of ROC curves</a> (correlated ROC curves, derived from the same cases)
+</li><li><a href="https://www.medcalc.org/manual/comparison_of_independent_roc_curves.php">Comparison of independent ROC curves</a> (ROC curves of subgroups)
+</li><li><a href="https://www.medcalc.org/manual/format_graph.php">Format graph</a>
+</li><li><a href="https://www.medcalc.org/manual/graph_legend.php">Graph legend</a>
+</li><li><a href="https://www.medcalc.org/manual/addgraphicalobjects.php">Add graphical objects</a>
+</li><li><a href="https://www.medcalc.org/manual/graph-referencelines.php">Reference lines</a>
+</li></ul>
+
+<h2>External links</h2>
+
+<ul>
+<li><a class="externallink" href="http://en.wikipedia.org/wiki/Receiver_operating_characteristic">Receiver operating characteristic</a> on Wikipedia.
+</li></ul>
+
+<!--/content-->
+</div>
+
+</td></tr></tbody></table>
+
+</div><!--/contentcontainer-->
+
+	<div id="socialmediaframe">
+	<a target="facebook" href="http://www.facebook.com/sharer.php?u=https://www.medcalc.org/manual/roc-curves.php"><img src="./ROC curve analysis with MedCalc_files/share-facebook.svg" alt="Share on Facebook"></a>
+	<a target="twitter" href="http://twitter.com/share?text=ROC+curve+analysis+in+MedCalc+includes+calculation+of+area+under+the+curve+%28AUC%29%2C+Youden+index%2C+optimal+criterion+and+predictive+values.+The+program+generates+a+full+listing+of+criterion+values+and+coordinates+of+the+ROC+curve.&amp;url=https://www.medcalc.org/manual/roc-curves.php"><img src="./ROC curve analysis with MedCalc_files/share-twitter.svg" alt="Share on Twitter"></a>
+	</div>
+
+<footer>
+
+	<div id="bottommenucontainer">
+		<div id="bottommenu" class="innercontainer">
+		<nav>
+		<a href="https://www.medcalc.org/privacy_policy.php" class="bottommenu">Privacy &amp; cookies</a>
+		<a href="https://www.medcalc.org/contact.php" title="Contact MedCalc Software" class="bottommenu">Contact</a>
+		<a href="https://www.medcalc.org/sitemap.php" class="bottommenu">Site map</a>
+		</nav>
+		</div>
+	</div>
+
+	<div id="footercontainer">
+	<table style="width:100%;" id="footer" class="innercontainer">
+	<tbody><tr>
+	<td id="footerleft">
+
+	<span style="white-space: nowrap">©&nbsp;2020&nbsp;MedCalc&nbsp;Software&nbsp;Ltd</span>	</td>
+	<td id="footermiddle">
+	</td>
+	<td id="footerright">
+	</td>
+	</tr>
+	</tbody></table>
+
+	</div> <!-- footer -->
+
+</footer>
+
+<!-- -->
+
+<div id="consentframe" style="position: fixed; right: 0px; bottom: 0px; width: 252px; color: black; white-space: normal; line-height: 135%; display: none;">
+<div style="border: 1px solid gray; background: #eeeefe; padding:6px; margin: 0px 6px 6px 0px; text-align:left; font-size:11px; ">
+<p style="display:table-cell; vertical-align:middle">This site uses cookies to store information on your computer. <a href="https://www.medcalc.org/privacy_policy.php">More&nbsp;info...</a>
+<button id="cookiesok" title="Agree to the use of cookies" style="float:right; width:60px; font-size:11px;">OK</button>
+</p></div>
+</div>
+<script>var allowcookies=null; var v = new RegExp("cookiesconsent=([^;]+)").exec(document.cookie); if (v != null) { allowcookies=unescape(v[1]); } ; var bar = document.getElementById('consentframe'), btn = document.getElementById('cookiesok'); btn.onclick = function() { bar.style.display = 'none'; var d = new Date; d.setTime(d.getTime()+24*60*60*1000*365); document.cookie = 'cookiesconsent=ok;path=/;expires='+d.toGMTString(); }; bar.style.display = (allowcookies == 'ok') ? 'none' : 'table'; </script>
+
+
+<script>
+
+if(!mcnet)var mcnet=new Object();mcnet.Ajax=function(url,query,oncompletefunction)
+{if(window.XDomainRequest){var xdr=new XDomainRequest();if(xdr){xdr.onload=function(){if(oncompletefunction){oncompletefunction(xdr.responseText);}}
+xdr.timeout=10000;xdr.open("POST",url);xdr.send(query);return;}}
+var xmlhttp=null;if(window.XMLHttpRequest){xmlhttp=new XMLHttpRequest();}else{xmlhttp=new ActiveXObject('Microsoft.XMLHTTP');}
+xmlhttp.open('POST',url,true);xmlhttp.onreadystatechange=function(){if((xmlhttp.readyState==4)&&(xmlhttp.status==200)){if(oncompletefunction){oncompletefunction(xmlhttp.responseText);}}}
+xmlhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');xmlhttp.send(query);};mcnet.GetWindowWidth=function(){var myWidth=1023;if(typeof(window.innerWidth)=='number'){myWidth=window.innerWidth;}else if(document.documentElement&&document.documentElement.clientWidth){myWidth=document.documentElement.clientWidth;}else if(document.body&&document.body.clientWidth){myWidth=document.body.clientWidth;}
+return myWidth;};gwidth=mcnet.GetWindowWidth();function getCookie(name){var v=new RegExp(name+"=([^;]+)").exec(document.cookie);return(v!=null)?unescape(v[1]):null;};mcnet.ToggleDropDownMenu=function(){var el=document.getElementById("topmenuitems");var d="";if(el.style.display==""||el.style.display=="none"){d="block";document.getElementById("topmenubutton").style.borderBottom="1px solid gray";document.getElementById("topmenu").style.borderBottom="1px solid gray";document.getElementById("topmenuarrow").style.borderTop="0";document.getElementById("topmenuarrow").style.borderBottom="7px solid #1F1F1F";}else{d="none";document.getElementById("topmenubutton").style.borderBottom="0";document.getElementById("topmenuarrow").style.borderTop="7px solid #1F1F1F";document.getElementById("topmenuarrow").style.borderBottom="0";document.getElementById("topmenu").style.borderBottom="0";}
+el.style.display=d;return false;};var oldmenuwindowwidth=0;mcnet.ToggleMenuDisplay=function(){gwidth=mcnet.GetWindowWidth();var w=gwidth;if(Math.abs(w-oldmenuwindowwidth)<24)return;oldmenuwindowwidth=w;var d="inline-block";if(w<600){if(document.getElementById("topmenubutton").style.display!="block"){document.getElementById("topmenubutton").style.display="block";document.getElementById("topmenuitems").style.display="none";document.getElementById("topmenuarrow").style.borderTop="7px solid #1F1F1F";document.getElementById("topmenuarrow").style.borderBottom="0";}
+d="block";}else{document.getElementById("topmenubutton").style.display="none";document.getElementById("topmenuitems").style.display="block";document.getElementById("topmenu").style.borderBottom="0";}
+var x=document.querySelectorAll("#topmenuitems li, #topmenuitems a");for(var i=0;i<x.length;i++){x[i].style.display=d;}};setCalcResult=function(el,txt)
+{if((txt[0]=="{")&&(txt[txt.length-1]=="}")){var s=txt.split("|");if(s.length>1){var t="";var i=0;var b=0;while(i<s.length){t=t+s[i];if(i<s.length-1)t=t+"<br>|";i++;}
+txt=t;}}
+document.getElementById(el).innerHTML=txt;};calcValidateForm=function(id,name,narguments)
+{document.getElementById("calcresult"+id).innerHTML="<img src='/gif/wait20trans.gif'>";var command=name+"(";var aname="";var i=0;var n="";while(i<narguments){aname="arg"+id+i.toString();n=document.forms["calcForm"+id][aname].value;n=n.replace("—","-");command=command+n;i=i+1;if(i<narguments){command=command+",";}}
+command=command+")";command=encodeURIComponent(command);var cmd="func="+command;mcnet.Ajax("/inc/getmedcalcvalue.php",cmd,function(txt){setCalcResult("calcresult"+id,txt)});return false;};isNumber=function(n)
+{return!isNaN(parseFloat(n))&&isFinite(n);};setbordercolor=function(fid,color)
+{var id=document.getElementById(fid);id.style.border="1px solid "+color;};toggle_visibility=function(id){var e=document.getElementById(id);if(e.style.display=='none')
+e.style.display='inline-block';else
+e.style.display='none';};mcnet.Sleep=function(milliseconds){var date=Date.now();var currentDate=null;do{currentDate=Date.now();}while(currentDate-date<milliseconds);};mcnet.ValidateEmail=function(mail){return(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail));}
+graphValidateForm=function(gid,fname,narguments)
+{var aname,arg,id;var ok=true;var func=fname+"(";var aname="";var i=0;while(i<narguments){aname="farg"+gid+i.toString();setbordercolor(aname,"#D8D8D8");arg=document.forms["graphForm"+gid][aname].value;if((arg==null)||(arg=="")){setbordercolor(aname,"red");ok=false;};func=func+arg;i=i+1;if(i<narguments){func=func+",";}}
+func=func+")";func=encodeURIComponent(func);var xmin=document.forms["graphForm"+gid]["xmin"+gid].value;var xmax=document.forms["graphForm"+gid]["xmax"+gid].value;var ymin=document.forms["graphForm"+gid]["ymin"+gid].value;var ymax=document.forms["graphForm"+gid]["ymax"+gid].value;setbordercolor("xmin"+gid,"#707070");setbordercolor("xmax"+gid,"#707070");setbordercolor("ymin"+gid,"#707070");setbordercolor("ymax"+gid,"#707070");if(!isNumber(xmin)||xmin.length>16){setbordercolor("xmin"+gid,"red");ok=false};if(!isNumber(xmax)||xmax.length>16){setbordercolor("xmax"+gid,"red");ok=false};if((ymin==null||ymin=="")&&(ymax==null||ymax=="")){ymin="0";ymax="0";}else{if(!isNumber(ymin)||ymin.length>16){setbordercolor("ymin"+gid,"red");ok=false};if(!isNumber(ymax)||ymax.length>16){setbordercolor("ymax"+gid,"red");ok=false};}
+if(!ok){document.getElementById("graphhelp"+gid).style.visibility="visible";return false;}
+cmd="fnct='"+func+"'&xmin="+xmin+"&xmax="+xmax+"&ymin="+ymin+"&ymax="+ymax;mcnet.Ajax("/inc/getgraph.php",cmd,function(txt){document.getElementById("graphresult"+gid).innerHTML=txt;});return false;};mcnet.ShowHidePassword=function()
+{if(document.MyForm.passChange.checked){document.MyForm.password.type='text';}else{document.MyForm.password.type='password';}};mcnet.AddWindowEventHandler=function(type,eventHandle)
+{if(window.addEventListener){window.addEventListener(type,eventHandle,false);}else if(window.attachEvent){window.attachEvent("on"+type,eventHandle);}};mcnet.AddEventHandler=function(elementid,type,eventHandle)
+{var element=document.getElementById(elementid);if(element.addEventListener){element.addEventListener(type,eventHandle,false);}else if(element.attachEvent){element.attachEvent("on"+type,eventHandle);}};mcnet.CleanString=function(string)
+{var s=string.replace("<","&lt;");s=s.replace("?","&#63;");s=s.replace("'","&#039;");s=s.replace('"',"&quot;");return s;};mcnet.SetElementText=function(element,text)
+{document.getElementById(element).innerHTML=text;};function Sidebaritemhighlight(el){el.className="sidebaritemhover";return true;}
+function Sidebaritemunhighlight(el){el.className="sidebaritem";return true;}
+function Sidebaritemunhighlightselected(el){el.className="sidebaritemselected";return true;}
+function highlight(el){el.className="menuitemhover";return true;}
+function unhighlight(el){el.className="menuitem";return true;}
+function unhighlightselected(el){el.className="menuitemselected";return true;}mcnet.AddWindowEventHandler("resize", mcnet.ToggleMenuDisplay);
+mcnet.ToggleMenuDisplay();
+
+
+function hidemenu() 
+{
+	document.getElementById("leftbar").style.paddingRight="6px";
+	document.getElementById("leftmenu").style.display="none";
+	document.getElementById("showmanualmenu").style.display="inline";
+	document.cookie = "hidemanualmenu=1; path=/";
+	
+}
+function showmenu() 
+{
+	document.getElementById("leftbar").style.paddingRight="24px";
+	document.getElementById("leftmenu").style.display="inline-block";
+	document.getElementById("showmanualmenu").style.display="none";
+	document.cookie = "hidemanualmenu=0; path=/";
+}
+function getCookieLoc(name) { 
+	var v = new RegExp(name+"=([^;]+)").exec(document.cookie); 
+	return (v != null) ? unescape(v[1]) : null; 
+}
+var hidemanualmenu=false;
+if (1==getCookieLoc("hidemanualmenu")) hidemanualmenu=true;
+if (hidemanualmenu) hidemenu();
+	
+</script>
+
+
+
+
+</body></html>
