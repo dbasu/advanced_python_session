@@ -4,6 +4,7 @@ class Person:
 		self.firstName = firstName
 		self.lastName = lastName
 		self.idNumber = idNumber
+		
 	def printPerson(self):
 		print("Name:", self.lastName + ",", self.firstName)
 		print("ID:", self.idNumber)
@@ -23,7 +24,7 @@ class Student(Person):
 		self.scores = []
 		for s in scores:
 			self.scores.append(int(s))
-		
+
 	def calculate(self):
 		"""
 		Function Name: calculate
