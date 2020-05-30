@@ -92,7 +92,8 @@ class Complex:
 			return Complex(other * self.real, other *self.imag)
 		else:
 			return Complex.from_polar(self.mag * other.mag, 
-							theta=self.theta + other.theta) 
+							theta=self.theta + other.theta)
+							 
 	def __truediv__(self, other):
 		"""
 		divides a complex number with anothernumber real/complex

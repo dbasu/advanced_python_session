@@ -4,7 +4,7 @@ rows = [[10,  2,  5],
 		[ 9,  9,  9],
 		[ 1, 23, 12],
 		[ 6,  5,  9]]
-K = 1
+K = 2
 
 
 for row in sorted(rows, key=lambda row: row[K]):

@@ -10,7 +10,7 @@ open_bracket  = ['(', '{', '[']
 bracket_map = dict(zip(close_bracket, open_bracket))
 def is_matched(expression):
     """
-    create a stack, as you parse the string from left ro right
+    create a stack, as you parse the string from left to right
     if you encounter an open bracket push it to the end of the stack
     if you encounter a closed bracket pop the end of the stack and match if the closed and open bracket match
     finally at the end if there are still items in the stack , brackets are not balanced.

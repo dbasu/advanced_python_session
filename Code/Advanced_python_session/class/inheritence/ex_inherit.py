@@ -23,6 +23,7 @@ class Student(Person):
 		self.scores = []
 		for s in scores:
 			self.scores.append(int(s))
+		
 	def calculate(self):
 		"""
 		Function Name: calculate
